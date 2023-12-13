@@ -38,13 +38,44 @@ def main():
         plot_schedule(schedule_history, choice)
 
 
-class Process:
-    def __init__(self, name, arrival_time, burst_time):
-        # Process constructor to initialize process attributes
-        self.name = name
-        self.arrival_time = arrival_time
-        self.burst_time = burst_time
-        self.remaining_time = burst_time
+def get_user_choice():
+    # Function to get the user's choice of scheduling algorithm
+    options = {"1": "First Come First Serve", "2": "Round Robin"}
+    print("Choose a scheduling algorithm:")
+    print("1. First-Come-First-Serve (FCFS)")
+    print("2. Round-Robin (RR)")
+    selected_choice = options[input("Enter the number of your choice: ")]
+    print(selected_choice)
+    return selected_choice
+
+
+def run_scheduler(processes, algorithm_choice):
+    # Function to run the selected scheduling algorithm
+    if algorithm_choice == "First Come First Serve":
+        return fcfs(processes)
+    elif algorithm_choice == "Round Robin":
+        time_quantum = int(input("Enter the time quantum for Round-Robin: "))
+        return round_robin(processes, time_quantum)
+    else:
+        print("Invalid choice. Please enter a valid number.")
+
+
+def plot_schedule(schedule_history, schedule_title):
+    # Extract time and process data for plotting
+    times = [item[1] for item in schedule_history]
+    processes = [item[0] for item in schedule_history]
+
+    # Plot the schedule
+    plt.step(times, processes, where="post", marker="o", color="b")
+
+    # Add labels for each point on the plot
+    for i, (process, time) in enumerate(schedule_history):
+        plt.text(time, process, f"{process}", ha="left", va="bottom")
+
+    plt.title(schedule_title)
+    plt.xlabel("Time")
+    plt.ylabel("Process")
+    plt.show()
 
 
 def fcfs(processes):
@@ -91,44 +122,13 @@ def round_robin(processes, time_quantum):
     return history
 
 
-def get_user_choice():
-    # Function to get the user's choice of scheduling algorithm
-    options = {"1": "First Come First Serve", "2": "Round Robin"}
-    print("Choose a scheduling algorithm:")
-    print("1. First-Come-First-Serve (FCFS)")
-    print("2. Round-Robin (RR)")
-    selected_choice = options[input("Enter the number of your choice: ")]
-    print(selected_choice)
-    return selected_choice
-
-
-def run_scheduler(processes, algorithm_choice):
-    # Function to run the selected scheduling algorithm
-    if algorithm_choice == "First Come First Serve":
-        return fcfs(processes)
-    elif algorithm_choice == "Round Robin":
-        time_quantum = int(input("Enter the time quantum for Round-Robin: "))
-        return round_robin(processes, time_quantum)
-    else:
-        print("Invalid choice. Please enter a valid number.")
-
-
-def plot_schedule(schedule_history, schedule_title):
-    # Extract time and process data for plotting
-    times = [item[1] for item in schedule_history]
-    processes = [item[0] for item in schedule_history]
-
-    # Plot the schedule
-    plt.step(times, processes, where="post", marker="o", color="b")
-
-    # Add labels for each point on the plot
-    for i, (process, time) in enumerate(schedule_history):
-        plt.text(time, process, f"{process}", ha="left", va="bottom")
-
-    plt.title(schedule_title)
-    plt.xlabel("Time")
-    plt.ylabel("Process")
-    plt.show()
+class Process:
+    def __init__(self, name, arrival_time, burst_time):
+        # Process constructor to initialize process attributes
+        self.name = name
+        self.arrival_time = arrival_time
+        self.burst_time = burst_time
+        self.remaining_time = burst_time
 
 
 if __name__ == "__main__":
