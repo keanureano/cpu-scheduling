@@ -2,6 +2,11 @@
 
 This project simulates CPU scheduling algorithms and visualizes the process schedules using `matplotlib`.
 
+## Screenshots
+
+![First Come First Serve](firstcomefirstserve.png)
+![Round Robin](roundrobin.png)
+
 ## Installation
 
 1. Clone the repository:
